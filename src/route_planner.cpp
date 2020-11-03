@@ -10,8 +10,9 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
 
     // TODO 2: Use the m_Model.FindClosestNode method to find the closest nodes to the starting and ending coordinates.
     // Store the nodes you find in the RoutePlanner's start_node and end_node attributes.
-    RoutePlanner::start_node = &m_Model.FindClosestNode(start_x, start_y);
-    RoutePlanner::end_node = &m_Model.FindClosestNode(end_x, end_y);
+    start_node = &m_Model.FindClosestNode(start_x,start_y);
+    end_node = &m_Model.FindClosestNode(end_x, end_y);
+    std::cout << start_node->x << start_node->y << end_node->x << end_node->y << std::endl;
 }
 
 
@@ -21,7 +22,8 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
 // - Node objects have a distance method to determine the distance to another node.
 
 float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
-    return node->distance(*end_node);
+    float h = node->distance(*RoutePlanner::end_node);
+    return h;
 }
 
 
@@ -36,19 +38,18 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     // find the neighbors of the current node
     current_node->FindNeighbors();
     // populate current_node.neighbors vector with all the neighbors
-    std::vector<RouteModel::Node *> neighbors_local = current_node->neighbors;
-    for(auto neighbor : neighbors_local)
+    for(auto neighbor : current_node->neighbors)
     {
         //set the parent
         neighbor->parent = current_node;
         //calculate the h-value
-        neighbor->h_value = CalculateHValue(neighbor);
+        neighbor->h_value = RoutePlanner::CalculateHValue(neighbor);
         //calculate the g-value
         neighbor->g_value = current_node->g_value + current_node->distance(*neighbor);
         //set the visited boolean to true
         neighbor->visited = true;
         //add the neighbor to the open_list
-        open_list.push_back(neighbor);
+        RoutePlanner::open_list.emplace_back(neighbor);
     }
 }
 
