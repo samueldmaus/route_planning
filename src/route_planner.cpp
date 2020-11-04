@@ -71,7 +71,10 @@ bool Compare(const RouteModel::Node *a, const RouteModel::Node *b)
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
-    sort(open_list.begin(), open_list.end(), Compare)
+    sort(open_list.begin(), open_list.end(), Compare);
+    RouteModel::Node *lowest_sum_node = open_list.back();
+    open_list.pop_back();
+    return lowest_sum_node;
 }
 
 
