@@ -97,16 +97,23 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     std::vector<RouteModel::Node> path_found;
 
     // TODO: Implement your solution here.
-    // make sure the parent node isn't empty
+    // while the parent of the current_node isn't nullptr(basically for every node except the start node)
+    // we're tracing our steps back from the end_node
     while(current_node->parent != nullptr)
     {
+        // push the current_node into path_found vector
         path_found.push_back(*current_node);
+        // set the parent as the parent of the current_node
         auto parent = *(current_node->parent);
+        // add the distance from the current_node to it's parent
         distance += current_node->distance(parent);
+        // set the current_node as the parent of the old current_node; start the process over again
         current_node = current_node->parent;
     }
 
+    // this is for the start_node as it won't a parent
     path_found.push_back(*current_node);
+
     // reverse the path so it's in the right order
     std::reverse(path_found.begin(), path_found.end());
 
@@ -124,6 +131,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 // - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
 
 void RoutePlanner::AStarSearch() {
+    // start from the start_node
     RouteModel::Node *current_node = start_node;
 
     // TODO: Implement your solution here.
