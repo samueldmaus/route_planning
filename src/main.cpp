@@ -57,10 +57,17 @@ int main(int argc, const char **argv)
     // RoutePlanner object below in place of 10, 10, 90, 90.
 
     // declared starting and ending xy floats & getting them from the user
-    float start_x = 10;
-    float start_y = 10;
-    float end_x = 90;
-    float end_y = 90;
+    float start_x;
+    float start_y;
+    float end_x;
+    float end_y;
+
+    std::cout << "Give starting x & y" << std::endl;
+    std:: cin >> start_x >> start_y;
+    std::cout << "Give ending x & y" << std::endl;
+    std::cin >> end_x >> end_y;
+    std::cout << "Starting at: (" << start_x << ", " << start_y << ")" << std::endl;
+    std::cout << "Ending at: (" << end_x << ", " << end_y << ")" << std::endl;
 
     // Build Model.
     RouteModel model{osm_data};

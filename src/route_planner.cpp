@@ -63,7 +63,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Return the pointer.
 
 // Compare function to compare the f values of the two nodes
-bool Compare(const RouteModel::Node *node_one, const RouteModel::Node *node_two)
+bool CompareFValues(const RouteModel::Node *node_one, const RouteModel::Node *node_two)
 {
     float f_value_one = node_one->g_value + node_one->h_value;
     float f_value_two = node_two->g_value + node_two->h_value;
@@ -72,9 +72,12 @@ bool Compare(const RouteModel::Node *node_one, const RouteModel::Node *node_two)
 
 RouteModel::Node *RoutePlanner::NextNode() {
     // sort the open list using the compare function above
-    sort(open_list.begin(), open_list.end(), Compare);
+    sort(open_list.begin(), open_list.end(), CompareFValues);
 
+    // node with the lowest f-value should be at the back of the open_list
     RouteModel::Node *lowest_sum_node = open_list.back();
+
+    // get the lowest_sum_node from the back of the vector & return it
     open_list.pop_back();
     return lowest_sum_node;
 }
@@ -132,8 +135,8 @@ void RoutePlanner::AStarSearch() {
     current_node->visited = true;
     open_list.push_back(current_node);
 
-    // while open_list isn't do: get the next node, check if it's the end_node,
-    // it is then contstruct the path, else addneighbors for the curren_node
+    // while open_list isn't empty do: get the next node, check if it's the end_node,
+    // it is then construct the path, else addneighbors for the curren_node
     while(!open_list.empty())
     {
         current_node = NextNode();
