@@ -142,6 +142,7 @@ void RoutePlanner::AStarSearch() {
         current_node = NextNode();
         if(current_node == end_node)
         {
+            // construct the final path starting with the end node
             m_Model.path = ConstructFinalPath(end_node);
             break;
         }else
