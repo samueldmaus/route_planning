@@ -1,6 +1,7 @@
 # Route Planning Project
 
-This repo contains the starter code for the Route Planning project.
+## Introduction
+This a route planning application using OSM (OpenStreetMap). This application will plot the shortest path between the user's starting and ending position using the A* search algorithm avoiding man-made and natural obstacles along the way.
 
 <img src="map.png" width="600" height="450" />
 
